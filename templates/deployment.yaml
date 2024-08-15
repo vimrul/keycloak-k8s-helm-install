@@ -20,6 +20,7 @@ spec:
       containers:
         - name: keycloak
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.imagePullPolicy }}
           ports:
             - containerPort: {{ .Values.service.ports.http }}
             - containerPort: {{ .Values.service.ports.https }}
@@ -42,6 +43,11 @@ spec:
               value: "{{ .Values.env.KEYCLOAK_ADMIN_PASSWORD }}"
             - name: KC_HOSTNAME_STRICT_HTTPS
               value: "{{ .Values.env.KC_HOSTNAME_STRICT_HTTPS }}"
+            - name: KC_FEATURES
+              value: "token-exchange,admin-fine-grained-authz"
+          command:
+            - "/opt/keycloak/bin/kc.sh"
+            - "start-dev"
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
       {{- range .Values.imagePullSecrets }}

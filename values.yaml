@@ -16,14 +16,18 @@ service:
 
 env:
   DB_VENDOR: POSTGRES
-  DB_ADDR: 192.168.1.1
-  DB_PORT: 5432
+  DB_ADDR: 192.168.1.128
+  DB_PORT: "5432"
   DB_DATABASE: keycloak
   DB_USER: postgres
   DB_PASSWORD: "123456"
-  KEYCLOAK_ADMIN: admin  # Corrected variable name
-  KEYCLOAK_ADMIN_PASSWORD: admin  # Corrected variable name
+  KEYCLOAK_ADMIN: admin
+  KEYCLOAK_ADMIN_PASSWORD: admin
   KC_HOSTNAME_STRICT_HTTPS: "false"
+
+extraEnv: |
+  - name: KC_FEATURES
+    value: "token-exchange,admin-fine-grained-authz"
 
 imagePullSecrets:
   - name: regcred
